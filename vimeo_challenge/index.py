@@ -29,11 +29,6 @@ class Clip(Document):
 def initialize_dsl():
     """ Initialize Clip persistent layer, connect to index. """
     connections.create_connection(hosts=['localhost'])
-    #
-    # es = Elasticsearch()
-    # if not es.indices.exists(index='clips'):
-    #     es.index(index='clips', body={})
-    #
     Clip.init()
 
 
