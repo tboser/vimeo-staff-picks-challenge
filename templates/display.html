@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Similar Videos Displayed </title>
+    </head>
+    <body>
+        {% for clip in clips %}
+            Clip Title: {{ clip.title }}
+            Clip Thumbnail: {{ clip.thumbnail }} <br />
+        {% endfor %}
+    </body>
+</html>

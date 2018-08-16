@@ -1,9 +1,9 @@
 """ Docstring goes here. """#TODO
 
-from elasticsearch_dsl import Document, Date, Integer, Keyword, Text, analyzer
+from elasticsearch_dsl import Document, Date, Integer, Keyword, Text
 from elasticsearch_dsl.connections import connections
 from elasticsearch_dsl.query import MoreLikeThis
-# from elasticsearch import Elasticsearch
+from elasticsearch import Elasticsearch
 
 from vimeo_challenge.exceptions import ClipNotFoundException
 
@@ -12,8 +12,8 @@ class Clip(Document):
     """
     All information relating to a clip from Vimeo's staff picks.
     """
-    title = Text(analyzer='snowball')
-    caption = Text(analyzer='snowball')
+    title = Text()
+    caption = Text()
     thumbnail = Text()
     categories = Keyword(multi=True)
 
@@ -26,9 +26,9 @@ class Clip(Document):
         return super(Clip, self).save(**kwargs)
 
 
-def initialize_dsl():
+def initialize_dsl(host='localhost'):
     """ Initialize Clip persistent layer, connect to index. """
-    connections.create_connection(hosts=['localhost'])
+    connections.create_connection(hosts=[{'host':host, 'port':9200}])
     Clip.init()
 
 
@@ -63,3 +63,36 @@ def get_similar_clips(clip_id):
     similar_clips = dsl_search.query(MoreLikeThis(like=clip.caption,
                                                   fields=['title', 'caption'])).execute()
     return similar_clips
+
+
+def save_model(name='clips_snapshot', host='localhost'):
+    """ Create snapshot of clips index """  # TODO: Handle exceptions for save/load model!
+    es = Elasticsearch(hosts=[{'host':host, 'port':9200}])
+
+    snapshot_body = {
+        "type": "fs",
+        "settings": {
+            "location": "es-snapshots"
+            }
+        }
+    es.snapshot.create_repository(repository='clips_repo', body=snapshot_body)
+    es.snapshot.create(repository='clips_repo', snapshot=name, body={"indices": "clips"})
+
+
+def load_model(name='clips_snapshot', host='localhost'):
+    """ Restore snapshot of clips index """
+    es = Elasticsearch(hosts=[{'host':host, 'port':9200}])
+
+    snapshot_body = {
+        "type": "fs",
+        "settings": {
+            "location": "es-snapshots"
+            }
+        }
+    es.snapshot.create_repository(repository='clips_repo', body=snapshot_body)
+
+    es.indices.delete(index='clips', ignore=[400, 404])
+    restore_body = {
+        "indices": "clips"
+    }
+    es.snapshot.restore(repository='clips_repo', snapshot=name, body=restore_body)

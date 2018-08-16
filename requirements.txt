@@ -1,0 +1,5 @@
+Flask
+elasticsearch
+elasticsearch-dsl
+pandas
+wtforms
