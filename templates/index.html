@@ -7,6 +7,7 @@
         <meta name="viewport" content = "width=device-width, initial-scale=1.0">
     </head>
     <body>
+
     <div class="container">
     <h1>Input a clip id.</h1>
         <form action="" method="post">
@@ -21,5 +22,27 @@
             </div>
         </form>
     </div>
+    <br />
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <div class="alert alert-info">
+                    <strong> {{ message[1] }} </strong>
+                    </div>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    {% for clip in clips %}
+        <h3>Clip Title: {{ clip.title }}, ID: {{ clip.meta.id }}</h3> <br />
+        <img src={{ clip.thumbnail }} width="200" height="200"><br />
+        Categories: {{ clip.categories }}<br />
+        Caption: {{ clip.caption }} <br />
+        <br/>
+        <br/>
+    {% endfor %}
+
     </body>
 </html>
