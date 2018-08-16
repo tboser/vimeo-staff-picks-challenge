@@ -1,4 +1,4 @@
-""" Docstring goes here. """  # TODO
+""" Tests for index.py """
 
 import unittest
 from elasticsearch import Elasticsearch

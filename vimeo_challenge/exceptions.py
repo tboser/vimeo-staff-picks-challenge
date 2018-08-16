@@ -1,4 +1,4 @@
-""" Exceptions docstring here #TODO """
+""" Error handling for vimeo_challenge """
 
 
 class ClipNotFoundException(RuntimeError):

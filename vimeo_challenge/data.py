@@ -1,4 +1,4 @@
-""" Docstring goes here. """#TODO
+""" Methods to handle clips data outside of the Elasticsearch index. """
 
 import os
 import pandas as pd

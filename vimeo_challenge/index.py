@@ -1,4 +1,4 @@
-""" Docstring goes here. """#TODO
+""" Methods and classes for creating and interacting with the ES index. """
 
 from elasticsearch_dsl import Document, Date, Integer, Keyword, Text
 from elasticsearch_dsl.connections import connections

@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-""" Put docstring here. """  # TODO
+""" Flask web app for searching and displaying similar clips. """
 
 from flask import Flask, render_template, request, flash
 from wtforms import Form, TextField
@@ -28,7 +28,7 @@ def prompt():
     if request.method == 'POST':
         clip_id = form.clip_id.data
         clip = get_clip_by_id(clip_id)
-        if clip is not None:
+        if clip is not None:  # if clip is in ES index, find similar clips, display result.
             similar_clips = get_similar_clips(clip_id)
             return render_template('index.html', form=form, clips=similar_clips)
         else:

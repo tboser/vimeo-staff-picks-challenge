@@ -1,19 +1,25 @@
 #! /usr/bin/env python
 
-""" Put docstring here. """  # TODO
+""" Command line access to vimeo_challenge. """
 
 import json
 import argparse
+import warnings
 
 from vimeo_challenge.data import data_to_index, clips_to_dict
 import vimeo_challenge.index as index
+
+# https://stackoverflow.com/questions/40845304/runtimewarning-numpy-dtype-size-changed-may-indicate-binary-incompatibility
+warnings.filterwarnings("ignore", message="numpy.dtype size changed")
+warnings.filterwarnings("ignore", message="numpy.ufunc size changed")
 
 
 def main():
     """
     Usage: python main.py <clip id> [args]
+    For complete information: python main.py -h
     """
-    parser = argparse.ArgumentParser(description='Find similar clips from clip id.',
+    parser = argparse.ArgumentParser(description='Find clips similar to clip_id.',
                                      prefix_chars='-')
     parser.add_argument('clip_id', metavar='<clip id>', default=None, nargs='?')
     parser.add_argument('-f', '--fillIndex', action='store_true', default=False,
@@ -41,6 +47,7 @@ def main():
         index.load_model(args.model_name, args.host)
 
     if args.clip_id is not None:
+        index.initialize_dsl(args.host)
         similar_clips = index.get_similar_clips(args.clip_id)
         clips_dict = clips_to_dict(similar_clips)
         print(json.dumps(clips_dict, indent=4, sort_keys=True))
