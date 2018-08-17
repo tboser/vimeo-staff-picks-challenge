@@ -8,6 +8,7 @@ from elasticsearch_dsl.connections import connections
 import vimeo_challenge.data as data
 from vimeo_challenge.index import get_clip_by_id
 
+
 class DataTest(unittest.TestCase):
     """ Tests for methods in data.py """
 
@@ -37,13 +38,13 @@ class DataTest(unittest.TestCase):
         assert clip is not None, 'clips not stored in index'
 
     @classmethod
-    def test_to_dict(cls):
-        """ Test data_to_dict() """
+    def test_to_list(cls):
+        """ Test clips_to_list() """
         clip = get_clip_by_id(250482473)
         assert clip is not None, 'clips not stored in index'
 
-        clip_dict = data.clips_to_dict([clip])
-        assert type(clip_dict) == dict, 'clip_to_dict failed'
+        clip_list = data.clips_to_list([clip])
+        assert type(clip_list) == list, 'clip_to_dict failed'
 
 
 if __name__ == '__main__':

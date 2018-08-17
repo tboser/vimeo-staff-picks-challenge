@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<div>
     <head>
         <title> Similar Vimeo Staff Picks </title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -21,7 +21,7 @@
                 <button type="submit" class="btn btn-success">Submit</button>
             </div>
         </form>
-    </div>
+
     <br />
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
@@ -35,8 +35,23 @@
         {% endif %}
     {% endwith %}
 
+    {% for clip in original %}
+        <h2>Original Clip:</h2>
+        <h3>Clip Title: {{ clip.title }} <br /> ID: {{ clip.meta.id }}</h3> <br />
+        <img src={{ clip.thumbnail }} width="200" height="200"><br />
+        Categories: {{ clip.categories }}<br />
+        Caption: {{ clip.caption }} <br />
+        <br/>
+        <br/>
+        <h2>Most similar clips:</h2>
+    {% endfor %}
+
     {% for clip in clips %}
-        <h3>Clip Title: {{ clip.title }}, ID: {{ clip.meta.id }}</h3> <br />
+        <h3>
+            Clip Title: {{ clip.title }}<br />
+            ID: {{ clip.meta.id }} <br />
+            Score: {{ clip.meta.score }} <br />
+        </h3> <br />
         <img src={{ clip.thumbnail }} width="200" height="200"><br />
         Categories: {{ clip.categories }}<br />
         Caption: {{ clip.caption }} <br />
@@ -45,4 +60,5 @@
     {% endfor %}
 
     </body>
+    </div>
 </html>

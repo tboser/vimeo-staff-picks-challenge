@@ -30,11 +30,11 @@ def prompt():
         clip = get_clip_by_id(clip_id)
         if clip is not None:  # if clip is in ES index, find similar clips, display result.
             similar_clips = get_similar_clips(clip_id)
-            return render_template('index.html', form=form, clips=similar_clips)
+            return render_template('index.html', form=form, original=[clip], clips=similar_clips)
         else:
             flash('Clip ID not found. Please enter a new clip ID.')
 
-    return render_template('index.html', form=form, clips=[])
+    return render_template('index.html', form=form, original=[], clips=[])
 
 
 def setup():

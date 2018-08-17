@@ -6,7 +6,7 @@ import json
 import argparse
 import warnings
 
-from vimeo_challenge.data import data_to_index, clips_to_dict
+from vimeo_challenge.data import data_to_index, clips_to_list
 import vimeo_challenge.index as index
 
 # https://stackoverflow.com/questions/40845304/runtimewarning-numpy-dtype-size-changed-may-indicate-binary-incompatibility
@@ -49,8 +49,9 @@ def main():
     if args.clip_id is not None:
         index.initialize_dsl(args.host)
         similar_clips = index.get_similar_clips(args.clip_id)
-        clips_dict = clips_to_dict(similar_clips)
-        print(json.dumps(clips_dict, indent=4, sort_keys=True))
+        clips_list = clips_to_list(similar_clips)
+        print(clips_list)
+        print(json.dumps({args.clip_id: clips_list}, indent=4, sort_keys=True))
 
 
 if __name__ == '__main__':
