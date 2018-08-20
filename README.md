@@ -1,6 +1,6 @@
 # Vimeo Staff Picks Challenge
+#### [Results and write up (results directory).](https://github.com/tboser/vimeo-staff-picks-challenge/tree/master/results)
 
-#### [Results and write up.](https://github.com/tboser/vimeo-staff-picks-challenge/tree/master/results)
 
 #### Requirements:
 Docker and docker-compose: https://www.docker.com/get-started  
